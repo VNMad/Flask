@@ -15,18 +15,21 @@ class User(BaseModel):
     address: Address
 
     @field_validator('name')
+    @classmethod
     def validate_name(cls, value):
         if not value.replace(' ', '').isalpha():
             raise ValueError('The Name must contain only letters')
         return value
 
     @field_validator('age')
+    @classmethod
     def validate_age(cls, value):
         if value < 0 or value > 120:
             raise ValueError('Age must be between 0 and 120')
         return value
 
     @field_validator('is_employed')
+    @classmethod
     def validate_employment(cls, value, info):
         if not value: raise ValueError('User must be employed to register in this system')
         age = info.data.get('age')
